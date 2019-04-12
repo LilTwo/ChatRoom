@@ -8,7 +8,7 @@ using namespace std;
 
 class ConsoleUI:public UI{
 public:
-    virtual wstring input_from_user(const wstring &ui_text);
+    virtual wstring input_from_user();
     virtual void output_to_user(const wstring& message);
     virtual void notify(const wstring &text) ;
     virtual void disconnect();

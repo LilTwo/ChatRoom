@@ -2,7 +2,14 @@
 #include "ClientState.hpp"
 #include "UI.hpp"
 
+
 int SocketClient::max_len = 1024;
+
+string wstring2string(const wstring& w){
+    using convert_type = std::codecvt_utf8<wchar_t>;
+    std::wstring_convert<convert_type, wchar_t> converter;
+    return converter.to_bytes(w);
+}
 
 void SocketClient::set_state(state_ptr state){
     this->state = move(state);
@@ -12,7 +19,7 @@ void SocketClient::set_state(state_ptr state){
 void SocketClient::send_loop(){
     wstring line;
     while(true){
-        wstring message = ui->input_from_user(state->ui_text());
+        wstring message = ui->input_from_user();
         mtx.lock();
         message = state->process_send(message);
         mtx.unlock();
@@ -43,8 +50,14 @@ void SocketClient::recv_loop(){
     }
 }
 
-SocketClient::SocketClient(const t_ui_getter& ui_getter,int port,const char *server_ip){
+SocketClient::SocketClient(const t_ui_getter& ui_getter,int port){
     ui = ui_getter();
+    ui->output_to_user(L"enter server ip(leave blank for localhost):");
+    wstring ip = ui->input_from_user();
+    const char *server_ip;
+    if(ip.empty()) server_ip = "127.0.0.1";
+    else const char *server_ip = wstring2string(ip).c_str();
+    
     ui->notify(L"connecting");
     
     struct sockaddr_in server_addr;

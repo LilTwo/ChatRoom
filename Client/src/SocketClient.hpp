@@ -13,6 +13,8 @@
 #include <thread>
 #include <vector>
 #include <algorithm>
+#include <locale>
+#include <codecvt>
 
 #ifndef _WIN32
 #include <arpa/inet.h>
@@ -37,7 +39,7 @@ typedef std::function<ui_ptr(void)> t_ui_getter;
 
 class SocketClient:public Context{
 public:
-    SocketClient(const t_ui_getter& ui_getter,int port=3000,const char* server_ip = "127.0.0.1");
+    SocketClient(const t_ui_getter& ui_getter,int port=3000);
     virtual void set_state(state_ptr state);
     ~SocketClient();
 

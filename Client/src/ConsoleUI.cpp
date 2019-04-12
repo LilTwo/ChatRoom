@@ -1,6 +1,6 @@
 #include "ConsoleUI.hpp"
 
-wstring ConsoleUI::input_from_user(const wstring &ui_text){
+wstring ConsoleUI::input_from_user(){
     wstring line;
     getline(wcin,line);
     return line;

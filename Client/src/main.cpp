@@ -3,6 +3,8 @@
 #include <iostream>
 #include <memory>
 #include <regex>
+#include <locale>
+#include <codecvt>
 #include "UI.hpp"
 
 using namespace std;
