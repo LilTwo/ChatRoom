@@ -1,9 +1,9 @@
-#C++ implementation of multi-user chat room
+# C++ implementation of multi-user chat room
 A multi-user chat room implemented by TCP connection, for recording the usage of C++ Socket API.<br/>
 This project is developed on OSX, using Linux socket library, Windows compatibility will be considered in the future.<br/>
 Source code of client and server are in Server/src and Client/src respectively.
 
-##Usage
+## Usage
 1. Create a server. 
 2. Create a client.
 3. Enter an username, server will check if it is duplicated.<br/>
