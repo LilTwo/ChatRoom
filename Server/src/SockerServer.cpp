@@ -1,5 +1,4 @@
 #include "SockerServer.hpp"
-#include <Windows.h>
 
 const int SocketServer::max_len = 1024;
 
@@ -45,7 +44,6 @@ SocketServer::SocketServer(int port,const string& host):port(port){
     FD_ZERO(&recv_set);
     std::thread t_accept(&SocketServer::accept_loop,this);
     t_accept.detach();
-	Sleep(1000);
     create_private_client(server_addr);
 }
 
