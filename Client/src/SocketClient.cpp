@@ -8,7 +8,8 @@ const int SocketClient::max_len = 1024;
 string wstring2string(const wstring& w){
     using convert_type = std::codecvt_utf8<wchar_t>;
     std::wstring_convert<convert_type, wchar_t> converter;
-    return converter.to_bytes(w);
+	string s = converter.to_bytes(w);
+    return s;
 }
 
 void SocketClient::set_state(state_ptr state){
@@ -63,27 +64,27 @@ SocketClient::SocketClient(const t_ui_getter& ui_getter,int port){
 
     ui = ui_getter();
     ui->output_to_user(L"enter server ip(leave blank for localhost):");
-    //wstring ip = ui->input_from_user();
-    //const char *server_ip;
-    //if(ip.empty()) server_ip = C("127.0.0.1");
-    //else const char *server_ip = wstring2string(ip).c_str();
-	auto *server_ip = "127.0.0.1";
+    wstring ip = ui->input_from_user();
+    string server_ip;
+    if(ip.empty()) server_ip = "127.0.0.1";
+    else server_ip = wstring2string(ip);
     
+	cout << server_ip << endl;
     ui->notify(L"connecting");
     
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
-	inet_pton(AF_INET, server_ip, &(server_addr.sin_addr));
+	inet_pton(AF_INET, server_ip.c_str(), &(server_addr.sin_addr));
     
     server = socket(PF_INET,SOCK_STREAM,0);
     if (server < 0) {
-        perror("socket");
+        cerr << "socket creation error" << endl;
         exit(-1);
     }
     
     if (connect(server,(const struct sockaddr *)&server_addr,sizeof(server_addr)) < 0) {
-        perror("connect");
+		cerr << "connect error" << endl;
         exit(-1);
     }
     
