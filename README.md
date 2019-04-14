@@ -12,4 +12,4 @@ In public mode, any message will be sended to all user, type `/p <otheruser>` ca
 6. `/r` can enter to private mode with the user who just sended a private message to you.
 
 ## Bugs
-1. When Client shuts down the program, it will send some random message to Server, this may cause by inappropriate temination of the thread.
+1. When a Client shuts down the program, it will send some random messages to the Server, this may cause by inappropriate temination of the thread.
