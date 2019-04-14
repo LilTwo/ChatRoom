@@ -66,7 +66,6 @@ wstring PrivateMessageState::process_send_impl(const wstring &message){
         context.set_state(make_unique<PublicMessageState>(context));
         return L"<ignore>";
     }
-	cout << "out" << endl;
     return prefix + message;
 }
 

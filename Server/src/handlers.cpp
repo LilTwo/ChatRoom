@@ -1,4 +1,4 @@
-#include "SockerServer.hpp"
+#include "SocketServer.hpp"
 auto public_handler = [](SocketServer &socket_server, wstring& message, const wstring &speaker) {
 	cout << "public_handler" << endl;
 	socket_server.public_message(speaker + wstring(L" says:") + message.substr(8));
