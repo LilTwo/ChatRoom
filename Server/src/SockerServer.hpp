@@ -8,16 +8,20 @@
 #include <unordered_set>
 #include <functional>
 #include <regex>
+#include <mutex>
+#include <algorithm>
+#include <vector>
 
 #ifndef _WIN32
 #include <arpa/inet.h>
-#include <thread>
-#include <vector>
-#include <algorithm>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <mutex>
 #define SOCKET int
+#define C(x) x
+#else
+#include <winsock2.h>
+#include <Ws2tcpip.h>
+#define close closesocket
 #endif
 
 using std::unordered_map;
@@ -30,6 +34,7 @@ using std::cout;
 using std::endl;
 using std::wcout;
 using std::thread;
+using namespace std::string_literals;
 
 class SocketServer;
 
@@ -45,12 +50,13 @@ public:
     ~SocketServer();
 private:
     static wregex prefix_pattern;
+	static const int max_len;
+
     SOCKET server;
     SOCKET private_client;
     void on_new_client(SOCKET client);
     void on_client_leave(SOCKET client);
     void recv_loop();
-    void on_public_message();
     void create_private_client(struct sockaddr_in server_addr);
     void register_new_client(wstring &name,SOCKET client);
     void register_psuedo_client(SOCKET client);
@@ -58,8 +64,8 @@ private:
     unordered_map<SOCKET,wstring> socket2name;
     static unordered_map<wstring,handler> prefix2handler;
     fd_set recv_set;
-    int max_len;
     std::mutex mtx;
+	int port;
 };
 
 #endif /* SockerServer_hpp */

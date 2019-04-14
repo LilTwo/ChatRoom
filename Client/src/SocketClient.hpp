@@ -21,6 +21,12 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #define SOCKET int
+#define C(x) x
+#else
+#include <winsock2.h>
+#include <Ws2tcpip.h>
+#define close closesocket
+#define C(x) L##x
 #endif
 
 #include "Context.hpp"
@@ -44,7 +50,7 @@ public:
     ~SocketClient();
 
 private:
-    static int max_len;
+    static const int max_len;
     void recv_loop();
     void send_loop();
     state_ptr state;
