@@ -6,9 +6,9 @@ ClientState::ClientState(Context& context):context(context){}
 wstring ClientState::process_send(const wstring& message){
     if(message.find(L"/r") == 0 && !response_private.empty()){
         auto private_state = make_unique<PrivateMessageState>(context,response_private);
-        wstring message = private_state->process_send_impl(message);
+        wstring response_message = private_state->process_send_impl(message);
         context.set_state(move(private_state));
-        return message;
+        return response_message;
     }
     else{
         return process_send_impl(message);
@@ -46,7 +46,6 @@ wstring PublicMessageState::ui_text(){
 
 wstring PublicMessageState::process_recv_impl(const wstring& message){
     if(!target.empty() && message == wstring(L"confirmed")){
-//        state = make_shared<PrivateMessageState>(context,target);
         context.set_state(make_unique<PrivateMessageState>(context,target));
         return wstring();
     }
@@ -59,7 +58,7 @@ wstring PublicMessageState::process_recv_impl(const wstring& message){
 }
 
 PrivateMessageState::PrivateMessageState(Context &context,const wstring &target):ClientState(context),target(target){
-    prefix = wstring(L"<private><")+target+L">";
+    prefix = wstring(L"<private><")+target+wstring(L">");
 }
 
 wstring PrivateMessageState::process_send_impl(const wstring &message){
@@ -67,7 +66,8 @@ wstring PrivateMessageState::process_send_impl(const wstring &message){
         context.set_state(make_unique<PublicMessageState>(context));
         return L"<ignore>";
     }
-    return prefix+message;
+	cout << "out" << endl;
+    return prefix + message;
 }
 
 wstring PrivateMessageState::process_recv_impl(const wstring &message){

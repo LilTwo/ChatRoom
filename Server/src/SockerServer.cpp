@@ -86,9 +86,7 @@ void SocketServer::create_private_client(struct sockaddr_in server_addr){
 
 	auto result = connect(private_server, (struct sockaddr *)&locahost_addr, sizeof(locahost_addr));
     if (result < 0) {
-		int err = errno;
-		auto c = WSAGetLastError();
-		std::cerr << c << endl;
+		std::cerr << "connect error" << endl;
         exit(-1);
     }
     char buff[1024];

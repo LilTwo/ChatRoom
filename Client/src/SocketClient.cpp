@@ -84,7 +84,7 @@ SocketClient::SocketClient(const t_ui_getter& ui_getter,int port){
     
     if (connect(server,(const struct sockaddr *)&server_addr,sizeof(server_addr)) < 0) {
         perror("connect");
-        //exit(-1);
+        exit(-1);
     }
     
     set_state(ClientState::get_initial_state(*this));
