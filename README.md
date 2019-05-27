@@ -10,6 +10,3 @@ This project is tested on Windows(Visual Studio 2015) and MacOS(XCODE 9), using 
 In public mode, any message will be sended to all user, type `/p <otheruser>` can change to private mode.<br/>
 5. In private mode, sended message will only be recevied  `<otheruser>`, type `\s` will back to public mode.
 6. `/r` can enter to private mode with the user who just sended a private message to you.
-
-## Bugs
-1. When a Client shuts down the program, it will send some random messages to the Server, this may cause by inappropriate temination of the thread.
